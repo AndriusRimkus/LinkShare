@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block javascripts %}
+    <script src="{{ asset('bundles/AppBundle/js/jquery-1.11.3.js') }}"></script>
+    <script src="{{ asset('bundles/AppBundle/js/bootstrap.js') }}"></script>
+    <script src="{{ asset('bundles/AppBundle/js/bootstrap-confirmation.js') }}"></script>
+    <script type='text/javascript'>
+        $(window).load(function() {
+            $(".popconfirm").popConfirm();
+        });
+    </script>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-6">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="flash-notice">
+                    <div class="alert alert-success" role="alert">{{ flashMessage }}</div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">My links</div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Date Added</th>
+                <th>Category</th>
+                <th>Link</th>
+                <th>Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for link in pagination %}
+            <tr>
+                <td style="display:table-cell; vertical-align:middle">{{ link.publishedAt|date("M d / H:i:s") }}</td>
+                <td style="display:table-cell; vertical-align:middle">{{ link.category.name }}</td>
+                <td style="display:table-cell; vertical-align:middle"><a href="{{ link.link }}" target="_blank">{{ link.name }}</a></td>
+                <td style="display:table-cell; vertical-align:middle"><a href="{{ path('removeLink', {'id': link.id}) }}" class="btn btn-warning popconfirm">Remove</a></td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {# display navigation #}
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}

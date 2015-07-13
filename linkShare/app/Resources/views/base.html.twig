@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('bundles/AppBundle/css/bootstrap.css') }}" />
+        <link rel="stylesheet" href="{{ asset('bundles/AppBundle/css/jumbotron-narrow.css') }}" />
+    {% endblock %}
+
+    {% block javascripts %}
+    {% endblock %}
+
+    <title>{% block title %}LinkShare{% endblock %}</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="navbar navbar-default">
+
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="{{ path('homepage') }}">LinkShare</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li role="presentation" class="{% if app.request.attributes.get('_route') == 'homepage' %}active{% endif %}"><a href="{{ path('homepage') }}">Home</a></li>
+                {% if app.user %}
+                    <li role="presentation" class="{% if app.request.attributes.get('_route') == 'addLink' %}active{% endif %}"><a href="{{ path('addLink') }}">New link</a></li>
+                    <li role="presentation" class="{% if app.request.attributes.get('_route') == 'myLinks' %}active{% endif %}"><a href="{{ path('myLinks') }}">My links</a></li>
+                </ul>
+                <p class="navbar-text pull-right">Logged in as: {{ app.user }} | <a href="{{ path('fos_user_security_logout') }}">Log out</a></p>
+                {% else %}
+                    <li role="presentation" class="{% if app.request.attributes.get('_route') == 'fos_user_security_login' %}active{% endif %}"><a href="{{ path('fos_user_security_login') }}">Login</a></li>
+                    <li role="presentation" class="{% if app.request.attributes.get('_route') == 'fos_user_registration_register' %}active{% endif %}"><a href="{{ path('fos_user_registration_register') }}">Sign-up</a></li>
+                </ul>
+                {% endif %}
+        </div>
+
+        {% block body %}{% endblock %}
+
+
+        {% block footer %}
+            <footer class="footer">
+                <p>&copy; LinkShare 2015 | <a href="{{ path('addCategory') }}">Add category</a></p>
+            </footer>
+        {% endblock %}
+    </div>
+</body>
+</html>

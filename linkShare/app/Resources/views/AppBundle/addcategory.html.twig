@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-lg-7">
+            <div id="legend">
+                <legend class="">Add category</legend>
+            </div>
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="flash-notice">
+                    <div class="alert alert-success" role="alert">{{ flashMessage }}</div>
+                </div>
+            {% endfor %}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                <fieldset>
+                    <div class="form-group">
+                        {{ form_label(form.name, 'Category Name', { 'label_attr': {'class': 'control-label'} }) }}
+                        <div class="controls">
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <p class="help-block">{{ form_errors(form.name) }}</p>
+                    </div>
+                    <div class="form-group">
+                        <!-- Button -->
+                        <div class="controls">
+                            <button class="btn btn-lg btn-success">Add category</button>
+                        </div>
+                    </div>
+                </fieldset>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col-lg-4 pull-right">
+            <div class="panel panel-default">
+                <div class="panel-heading">Other categories</div>
+                    <div class="panel-body">
+                        {% for category in categories %}
+                            {{ category.name }} <br/>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+    </div>
+{% endblock %}
